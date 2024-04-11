@@ -50,6 +50,14 @@ class HeaderTest extends TestCase
         $this->assertEquals("<h6>Header</h6>", $res);
     }
 
+
+    public function test_h6_linebreaks(): void
+    {
+        $processor = new Markdown();
+        $res = $processor->processString("\n\n\n\n\n\n\n\n\n###### Header");
+        $this->assertEquals("<h6>Header</h6>", $res);
+    }
+
     public function test_h7(): void
     {
         $processor = new Markdown();

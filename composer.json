@@ -2,6 +2,9 @@
   "name": "commercerun/markdown",
   "description": "Basic markdown that supports links",
   "license": "MIT",
+  "require": {
+    "ext-dom": "*"
+  },
   "require-dev": {
     "phpunit/phpunit": "10"
   },

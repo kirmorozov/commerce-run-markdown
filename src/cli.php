@@ -10,3 +10,5 @@ $generator = $processor->process($input);
 foreach($generator as $chunk) {
     echo $chunk;
 }
+
+fclose($input);

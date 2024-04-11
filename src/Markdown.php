@@ -12,9 +12,6 @@ class Markdown
 
     protected function makeGenerator($input)
     {
-        if ($input instanceof \Generator) {
-            return $input;
-        }
         $buffer = "";
         if (is_resource($input)) {
             while (($line = fgets($input)) !== false) {
@@ -28,6 +25,7 @@ class Markdown
         } else {
             foreach (explode("\n", $input) as $line) {
                 if ($line == "") {
+                    if (strlen($buffer) == 0) continue;
                     $oldBuffer = $buffer;
                     $buffer = "";
                     yield $oldBuffer;
