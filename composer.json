@@ -12,5 +12,8 @@
     "psr-4": {
       "CommerceRun\\": "src"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }
