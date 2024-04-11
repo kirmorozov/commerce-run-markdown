@@ -14,14 +14,14 @@ class ComplexTest extends TestCase
     {
         $processor = new Markdown();
 
-        $input = fopen(__DIR__.'/'.$inputFile, 'r');
+        $input = fopen(__DIR__ . '/' . $inputFile, 'r');
         $outputBody = "";
         $generator = $processor->process($input);
         foreach ($generator as $chunk) {
             $outputBody .= $chunk;
         }
         fclose($input);
-        $this->assertEquals(file_get_contents(__DIR__.'/'.$outputFile), rtrim($outputBody));
+        $this->assertEquals(file_get_contents(__DIR__ . '/' . $outputFile), rtrim($outputBody));
     }
 
     /**
@@ -31,8 +31,8 @@ class ComplexTest extends TestCase
     {
         $processor = new Markdown();
 
-        $input = file_get_contents(__DIR__.'/'.$inputFile);
-        $output = file_get_contents(__DIR__.'/'.$outputFile);
+        $input = file_get_contents(__DIR__ . '/' . $inputFile);
+        $output = file_get_contents(__DIR__ . '/' . $outputFile);
 
         $outputBody = $processor->processString($input);
         $this->assertEquals($output, rtrim($outputBody));
@@ -47,10 +47,10 @@ class ComplexTest extends TestCase
     {
         $processor = new Markdown();
 
-        $input = file_get_contents(__DIR__.'/'.$inputFile);
-        $output = file_get_contents(__DIR__.'/'.$outputFile);
+        $input = file_get_contents(__DIR__ . '/' . $inputFile);
+        $output = file_get_contents(__DIR__ . '/' . $outputFile);
 
-        for ($i = 0; $i< 100000; $i++) {
+        for ($i = 0; $i < 100000; $i++) {
             $outputBody = $processor->processString($input);
             $this->assertEquals($output, rtrim($outputBody));
         }
@@ -61,7 +61,7 @@ class ComplexTest extends TestCase
         return [
             ['test1.txt', 'test1_result.txt'],
             ['test2.txt', 'test2_result.txt']
-            ];
+        ];
 
     }
 }

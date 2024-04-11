@@ -14,6 +14,7 @@ class LinkTest extends TestCase
         $res = $processor->processString("[Link](is good)");
         $this->assertEquals('<p><a href="is%20good">Link</a></p>', $res);
     }
+
     public function test_broken_link(): void
     {
         $processor = new Markdown();

@@ -4,6 +4,7 @@ namespace Unit;
 
 use PHPUnit\Framework\TestCase;
 use CommerceRun\Markdown;
+
 class HeaderTest extends TestCase
 {
 
@@ -27,18 +28,21 @@ class HeaderTest extends TestCase
         $res = $processor->processString("### Header");
         $this->assertEquals("<h3>Header</h3>", $res);
     }
+
     public function test_h4(): void
     {
         $processor = new Markdown();
         $res = $processor->processString("#### Header");
         $this->assertEquals("<h4>Header</h4>", $res);
     }
+
     public function test_h5(): void
     {
         $processor = new Markdown();
         $res = $processor->processString("##### Header");
         $this->assertEquals("<h5>Header</h5>", $res);
     }
+
     public function test_h6(): void
     {
         $processor = new Markdown();
