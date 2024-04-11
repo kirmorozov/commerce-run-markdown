@@ -1,5 +1,5 @@
 {
-  "name": "CommerceRun Markdown",
+  "name": "commercerun/markdown",
   "description": "Basic markdown that supports links",
   "license": "MIT",
   "require-dev": {
