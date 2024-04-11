@@ -6,7 +6,7 @@ Supports Headers and links.
 php src/cli.php < tests/Unit/test1.txt
 ```
 
-For large inputs utilizes generators to process streaming input such as `php://input`
+For large inputs utilizes generators to process streams such as `php://input`
 
 ```php
 $processor = new \CommerceRun\Markdown();
