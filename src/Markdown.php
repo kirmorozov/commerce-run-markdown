@@ -53,9 +53,10 @@ class Markdown
         $generator = $this->makeGenerator($input);
 
         foreach ($generator as $chunk) {
-            yield $this->processChunk($chunk)."\n\n";
+            yield $this->processChunk($chunk) . "\n\n";
         }
     }
+
     public function collect(\Generator $generator)
     {
         $res = "";
@@ -72,12 +73,12 @@ class Markdown
         $startPosition = 0;
         if ($chunk[0] == '#') {
             $level = 0;
-            while ($startPosition < $len &&  $chunk[$startPosition] =='#') {
+            while ($startPosition < $len && $chunk[$startPosition] == '#') {
                 $level++;
                 $startPosition++;
             }
             if ($level < 7) {
-                $tag = 'h'. $level;
+                $tag = 'h' . $level;
                 $startPosition++;
             } else {
                 $startPosition = 0;
@@ -95,16 +96,16 @@ class Markdown
         return $result;
     }
 
-    protected function safeProcessContent($content, $startPosition,\DOMNode $element, \DOMDocument $doc)
+    protected function safeProcessContent($content, $startPosition, \DOMNode $element, \DOMDocument $doc)
     {
         $len = strlen($content);
-        if ($content[$len-1] == "\n") {
-            $len -=1;
+        if ($content[$len - 1] == "\n") {
+            $len -= 1;
         }
         $start = $startPosition;
         $movingPointer = $startPosition;
 
-        $states = [-1,-1,-1,-1];
+        $states = [-1, -1, -1, -1];
         while ($movingPointer < $len) {
 
             if ($states[0] == -1 && $content[$movingPointer] == '[') {
@@ -113,29 +114,29 @@ class Markdown
             if ($states[0] >= 0 && $content[$movingPointer] == ']') {
                 $states[1] = $movingPointer;
             } else
-            if ($states[1] > 0 && $content[$movingPointer] == '(') {
-                $states[2] = $movingPointer;
-                // just pair of square brackets no round after
-                if ($states[2] -1 != $states[1]) {
-                    $states = [-1,-1,-1,-1];
-                }
-            } else
-            if ($states[2] > 0 && $content[$movingPointer] == ')') {
-                $states[3] = $movingPointer;
-            }
+                if ($states[1] > 0 && $content[$movingPointer] == '(') {
+                    $states[2] = $movingPointer;
+                    // just pair of square brackets no round after
+                    if ($states[2] - 1 != $states[1]) {
+                        $states = [-1, -1, -1, -1];
+                    }
+                } else
+                    if ($states[2] > 0 && $content[$movingPointer] == ')') {
+                        $states[3] = $movingPointer;
+                    }
             // found tag for the link
             if ($states[3] > 0) {
                 // fill in content before the link
-                $textNode = $doc->createTextNode(substr($content,$start, $states[0]-$start));
+                $textNode = $doc->createTextNode(substr($content, $start, $states[0] - $start));
                 $element->appendChild($textNode);
                 // Add a tag
-                $aTag = $doc->createElement('a', substr($content, $states[0]+1, $states[1] - $states[0] -1));
-                $aTag->setAttribute('href', substr($content, $states[2]+1, $states[3]-$states[2] -1));
+                $aTag = $doc->createElement('a', substr($content, $states[0] + 1, $states[1] - $states[0] - 1));
+                $aTag->setAttribute('href', substr($content, $states[2] + 1, $states[3] - $states[2] - 1));
                 $element->appendChild($aTag);
                 // move start pointer
-                $start = $movingPointer+1;
+                $start = $movingPointer + 1;
                 // reset states
-                $states = [-1,-1,-1,-1];
+                $states = [-1, -1, -1, -1];
             }
             $movingPointer++;
         }
