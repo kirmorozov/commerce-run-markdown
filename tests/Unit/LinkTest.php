@@ -50,4 +50,11 @@ class LinkTest extends TestCase
         $res = $processor->processString('### [<a href="something">Really bad</a>](is bad)');
         $this->assertEquals('<h3><a href="is%20bad">&lt;a href="something"&gt;Really bad&lt;/a&gt;</a></h3>', $res);
     }
+
+    public function test_edge_case2(): void
+    {
+        $processor = new Markdown();
+        $res = $processor->processString('### 🎉[<a href="something">Really bad🎉</a>](is bad🎉)🎉');
+        $this->assertEquals('<h3>🎉<a href="is%20bad%F0%9F%8E%89">&lt;a href="something"&gt;Really bad🎉&lt;/a&gt;</a>🎉</h3>', $res);
+    }
 }

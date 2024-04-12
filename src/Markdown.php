@@ -104,24 +104,29 @@ class Markdown
         $movingPointer = $startPosition;
 
         $states = [-1, -1, -1, -1];
+        $nextSqOpen = false;
         while ($movingPointer < $len) {
 
-            if ($states[0] == -1 && $content[$movingPointer] == '[') {
-                $states[0] = $movingPointer;
+            if ($states[0] == -1 && (false !== ($nextSqOpen = strpos($content,'[',$movingPointer)))) {
+                $states[0] = $nextSqOpen;
+                $movingPointer = $nextSqOpen;
             }
-            if ($states[0] >= 0 && $content[$movingPointer] == ']') {
-                $states[1] = $movingPointer;
-            } else
-                if ($states[1] > 0 && $content[$movingPointer] == '(') {
-                    $states[2] = $movingPointer;
-                    // just pair of square brackets no round after
-                    if ($states[2] - 1 != $states[1]) {
-                        $states = [-1, -1, -1, -1];
-                    }
-                } else
-                    if ($states[2] > 0 && $content[$movingPointer] == ')') {
-                        $states[3] = $movingPointer;
-                    }
+            if ($states[0] >= 0 && (false !== ($nextSqClose = strpos($content,']',$movingPointer)))) {
+                $states[1] = $nextSqClose;
+                $movingPointer = $nextSqClose;
+            }
+            if ($states[1] > 0 && (false !== ($nextRoundOpen = strpos($content,'(',$movingPointer)))) {
+                $states[2] = $nextRoundOpen;
+                $movingPointer = $nextRoundOpen;
+                // just pair of square brackets no round after
+                if ($states[2] - 1 != $states[1]) {
+                    $states = [-1, -1, -1, -1];
+                }
+            }
+            if ($states[2] > 0 && (false !== ($nextRoundClose = strpos($content,')',$movingPointer)))) {
+                $states[3] = $nextRoundClose;
+                $movingPointer = $nextRoundClose;
+            }
             // found tag for the link
             if ($states[3] > 0) {
                 // fill in content before the link
